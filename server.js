@@ -29,34 +29,35 @@ app.get('/',(request, response)=>{
     .catch(error => console.error(error))
 })
 
-app.post('/addVampire', (request, response) => {
-    db.collection('vampires').insertOne({stageName: request.body.stageName,
-    birthName: request.body.birthName, likes: 0})
+app.post('/addVamp', (request, response) => {
+    db.collection('vampires').insertOne({givenName: request.body.givenName,
+    alsoKnownAs: request.body.alsoKnownAs, clan: request.body.clan, likes: 0})
     .then(result => {
         console.log('Vamp Added')
         response.redirect('/')
+        console.log(request.body)
     })
     .catch(error => console.error(error))
 })
 
-app.put('/addOneLike', (request, response) => {
-    db.collection('vampires').updateOne({stageName: request.body.stageNameS, birthName: request.body.birthNameS,likes: request.body.likesS},{
-        $set: {
-            likes:request.body.likesS + 1
-          }
-    },{
-        sort: {_id: -1},
-        upsert: true
-    })
-    .then(result => {
-        console.log('Added One Like')
-        response.json('Like Added')
-    })
-    .catch(error => console.error(error))
+// app.put('/addOneLike', (request, response) => {
+//     db.collection('vampires').updateOne({stageName: request.body.stageNameS, birthName: request.body.birthNameS,likes: request.body.likesS},{
+//         $set: {
+//             likes:request.body.likesS + 1
+//           }
+//     },{
+//         sort: {_id: -1},
+//         upsert: true
+//     })
+//     .then(result => {
+//         console.log('Added One Like')
+//         response.json('Like Added')
+//     })
+//     .catch(error => console.error(error))
 
-})
+// })
 
-app.delete('/deleteVampire', (request, response) => {
+app.delete('/deleteVamp', (request, response) => {
     db.collection('vampires').deleteOne({stageName: request.body.stageNameS})
     .then(result => {
         console.log('Vamp Deleted')
